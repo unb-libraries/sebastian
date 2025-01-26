@@ -4,7 +4,9 @@
 </p>
 
 ## Introduction
-Sebastian transcribes audio files to text.
+Sebastian transcribes audio files to text. It leverages the [whisperX](https://github.com/m-bain/whisperX) library, a speech-to-text library that extends Whisper ASR model [originally developed by OpenAI](https://github.com/openai/whisper).
+
+Both time-alignment and diarization (unique speaker identification) are supported.
 
 ## Documentation
 Documentation is available [in the documentation folder](./documentation/README.md "Project Documentation").
