@@ -62,8 +62,8 @@ def transcribe():
     compute_type = request.form.get('compute_type', 'float16')
     batch_size = int(request.form.get('batch_size', 16))
     language = request.form.get('language', 'en')
-    align = request.form.get('align', 'false').lower() == 'false'
-    diarize = request.form.get('diarize', 'false').lower() == 'false'
+    align = request.form.get('align', 'false').lower() == 'true'
+    diarize = request.form.get('diarize', 'false').lower() == 'true'
     min_speakers = int(request.form.get('min_speakers', 1))
     max_speakers = int(request.form.get('max_speakers', 4))
 
