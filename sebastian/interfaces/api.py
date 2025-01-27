@@ -47,9 +47,11 @@ def transcribe():
     if file and not allowed_file(file.filename):
         file_type_error = f"File type not allowed. Allowed types: {ALLOWED_EXTENSIONS}"
         return malformed_request_response("No filename provided", file_type_error)
-    
-    filename = secure_filename(file.filename)
-    file.save(path_join(app.config['UPLOAD_FOLDER'], filename))
+
+    secured_filename = secure_filename(file.filename)
+    upload_filepath = path_join(app.config['UPLOAD_FOLDER'], secured_filename)
+
+    file.save(upload_filepath)
     file.close()
 
     results = {}
@@ -80,11 +82,13 @@ def transcribe():
         batch_size = 16 # reduce if low on GPU mem
 
         model_load_start = cur_timestamp()
-        model = whisperx.load_model("large-v2", device, compute_type=compute_type, download_root=model_dir)
+        model = whisperx.load_model("large-v2", device, compute_type=compute_type, download_root=model_dir, language=language)
         model_load_time = time_since(model_load_start)
 
         file_load_start = cur_timestamp()
-        audio = whisperx.load_audio(filename)
+
+        logger.info("Loading audio file... %s", upload_filepath)
+        audio = whisperx.load_audio(upload_filepath)
         file_load_time = time_since(file_load_start)
 
         transcribe_start = cur_timestamp()
